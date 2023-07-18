@@ -1,7 +1,7 @@
 import { useState } from "react";
 import server from "./server";
 
-function Transfer({ address, setBalance }) {
+const Transfer = ({ address, setBalance }) => {
   const [sendAmount, setSendAmount] = useState("");
   const [recipient, setRecipient] = useState("");
 
@@ -49,6 +49,6 @@ function Transfer({ address, setBalance }) {
       <input type="submit" className="button" value="Transfer" />
     </form>
   );
-}
+};
 
 export default Transfer;

@@ -7,9 +7,9 @@ app.use(cors());
 app.use(express.json());
 
 const balances = {
-  "0x1": 100,
-  "0x2": 50,
-  "0x3": 75,
+  "1c1415ce6fcfa9e1fdf7cfa9f5fdcba6773d999c": 110, //person A
+  "978905b17e30da3603a72903e836a5908cad7f97": 50, //person B
+  "38528b83341c8f4fc6bf6d634427644ff3b58474": 75, //person C
 };
 
 app.get("/balance/:address", (req, res) => {
@@ -37,8 +37,8 @@ app.listen(port, () => {
   console.log(`Listening on port ${port}!`);
 });
 
-function setInitialBalance(address) {
+const setInitialBalance = (address) => {
   if (!balances[address]) {
     balances[address] = 0;
   }
-}
+};

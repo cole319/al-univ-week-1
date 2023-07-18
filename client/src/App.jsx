@@ -3,7 +3,7 @@ import Transfer from "./Transfer";
 import "./App.scss";
 import { useState } from "react";
 
-function App() {
+const App = () => {
   const [balance, setBalance] = useState(0);
   const [address, setAddress] = useState("");
 
@@ -18,6 +18,6 @@ function App() {
       <Transfer setBalance={setBalance} address={address} />
     </div>
   );
-}
+};
 
 export default App;
