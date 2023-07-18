@@ -18,6 +18,6 @@ console.log(pubKeyHash);
 
 console.log(toHex(pubKeyHash));
 
-const address = pubKeyHash.slice(pubKeyHash.length - 20);
+const address = toHex(pubKeyHash.slice(pubKeyHash.length - 20));
 
-console.log("address : ", toHex(address));
+console.log("address : ", address);
