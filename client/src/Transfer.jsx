@@ -7,7 +7,7 @@ const Transfer = ({ address, setBalance }) => {
 
   const setValue = (setter) => (evt) => setter(evt.target.value);
 
-  async function transfer(evt) {
+  const transfer = async (evt) => {
     evt.preventDefault();
 
     try {
@@ -22,7 +22,7 @@ const Transfer = ({ address, setBalance }) => {
     } catch (ex) {
       alert(ex.response.data.message);
     }
-  }
+  };
 
   return (
     <form className="container transfer" onSubmit={transfer}>
