@@ -1,10 +1,14 @@
 import { useState } from "react";
 import server from "./server";
 
+import * as secp from "ethereum-cryptography/secp256k1";
+import { utf8ToBytes, toHex } from "ethereum-cryptography/utils";
+import { keccak256 } from "ethereum-cryptography/keccak";
+
 const Transfer = ({ address, setBalance, privateKey }) => {
-  //the address field is to be omitted, to be derived from private key
   const [sendAmount, setSendAmount] = useState("");
   const [recipient, setRecipient] = useState("");
+
   // const [sign, setSign] = useState(""); //modified
   // const PRIVATE_KEY = privateKey; //modified
 
@@ -14,18 +18,58 @@ const Transfer = ({ address, setBalance, privateKey }) => {
   // split the onChange function into two different functions one for setReciepient
   // another for setSign
 
+  // const signData = async (data) => {
+  //   const dataBytes = utf8ToBytes(JSON.stringify(data));
+  //   const dataHash = keccak256(dataBytes);
+  //   // const PRIVATE_KEY = utf8ToBytes(privateKey);
+
+  //   const dataSigned = secp.secp256k1.sign(dataHash, privateKey, {
+  //     recovered: true,
+  //   });
+
+  //   return dataSigned;
+  // };
+
   const transfer = async (evt) => {
     evt.preventDefault();
+
+    // const data = { sender: address, recipient, amount: parseInt(sendAmount) };
+    // const signature = await signData(data);
+    // // const signature = signData(data);
+
+    // console.log(typeof signature);
+    // var signatureToArr = Array.from(signature[0]);
+    const data = { sender: address, recipient, amount: parseInt(sendAmount) };
+    const bytes = utf8ToBytes(JSON.stringify(data));
+    const hash = keccak256(bytes);
+
+    // const PRIVATE_KEY = new Uint8Array(privateKey);
+
+    const signature = await secp.sign(hash, privateKey, {
+      recovered: true,
+    });
+
+    // console.log(signature);
+    // console.log(toHex(signature));
+
+    // console.log(signature);
+    // // console.log(typeof signature);
+    // console.log(signature[0]);
+    // // console.log(typeof signature[0]);
+    let sig = Array.from(signature[0]);
+    // console.log(sig);
+    // // console.log(typeof sig);
+    // console.log(signature[1]);
 
     try {
       const {
         data: { balance },
       } = await server.post(`send`, {
-        sender: address, //to be derived from private key,
-        amount: parseInt(sendAmount),
-        // amount: sign, //modified
-        recipient,
+        ...data,
+        signature: toHex(sig),
+        recovery: 1,
       });
+
       setBalance(balance);
     } catch (ex) {
       alert(ex.response.data.message);
