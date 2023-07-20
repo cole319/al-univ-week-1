@@ -1,7 +1,4 @@
 import server from "./server";
-// const secp = require("ethereum-cryptography/secp256k1");
-// const { keccak256 } = require("ethereum-cryptography/keccak");
-// const { toHex, utf8ToBytes } = require("ethereum-cryptography/utils");
 
 import * as secp from "ethereum-cryptography/secp256k1";
 import { keccak256 } from "ethereum-cryptography/keccak";

@@ -18,7 +18,11 @@ const App = () => {
         privateKey={privateKey}
         setPrivateKey={setPrivateKey}
       />
-      <Transfer setBalance={setBalance} address={address} />
+      <Transfer
+        setBalance={setBalance}
+        address={address}
+        privateKey={privateKey} //modified
+      />
     </div>
   );
 };
